@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -61,6 +61,12 @@ export default function Login() {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
+
+  // Force login page to always start in English
+  useEffect(() => {
+    console.log('🌐 Login page loaded - forcing English language');
+    setLanguage('en');
+  }, []); // Run only once on mount
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
