@@ -118,30 +118,78 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] dark:bg-gray-900 flex items-center justify-center p-4">
       {/* Language and Theme switchers - top right */}
-      <div className="fixed top-4 right-4 flex items-center gap-2 z-10">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full shadow-sm hover:shadow-md transition-all">
-              <Globe className="h-6 w-6" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            {(Object.keys(languageLabels) as Language[]).map((lang) => (
-              <DropdownMenuItem
-                key={lang}
-                onClick={() => setLanguage(lang)}
-                className="cursor-pointer text-lg py-3"
-              >
-                {languageLabels[lang]}
-                {language === lang && <span className="ml-2 text-primary">✓</span>}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="fixed top-4 right-4 flex flex-col items-end gap-2 z-50">
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="h-12 w-12 rounded-full shadow-sm hover:shadow-md transition-all">
+                <Globe className="h-6 w-6" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {(Object.keys(languageLabels) as Language[]).map((lang) => (
+                <DropdownMenuItem
+                  key={lang}
+                  onClick={() => {
+                    console.log('Changing language to:', lang);
+                    setLanguage(lang);
+                  }}
+                  className="cursor-pointer text-lg py-3"
+                >
+                  {languageLabels[lang]}
+                  {language === lang && <span className="ml-2 text-primary">✓</span>}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-        <Button variant="outline" size="icon" className="h-12 w-12 rounded-full shadow-sm hover:shadow-md transition-all" onClick={toggleTheme}>
-          {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
-        </Button>
+          <Button variant="outline" size="icon" className="h-12 w-12 rounded-full shadow-sm hover:shadow-md transition-all" onClick={toggleTheme}>
+            {theme === 'light' ? <Moon className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
+          </Button>
+        </div>
+
+        {/* Backup Language Toggle Buttons */}
+        <div className="flex gap-1 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md border border-gray-200 dark:border-gray-700">
+          <button
+            type="button"
+            onClick={() => {
+              console.log('Switching to English');
+              setLanguage('en');
+            }}
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'en'
+                ? 'bg-green-500 text-white'
+                : 'bg-transparent text-gray-600 hover:bg-gray-100'
+              }`}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              console.log('Switching to Hindi');
+              setLanguage('hi');
+            }}
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'hi'
+                ? 'bg-green-500 text-white'
+                : 'bg-transparent text-gray-600 hover:bg-gray-100'
+              }`}
+          >
+            हिं
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              console.log('Switching to Punjabi');
+              setLanguage('pa');
+            }}
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'pa'
+                ? 'bg-green-500 text-white'
+                : 'bg-transparent text-gray-600 hover:bg-gray-100'
+              }`}
+          >
+            ਪੰ
+          </button>
+        </div>
       </div>
 
       <Card className="w-full max-w-lg shadow-xl border-[3px] border-border/50">

@@ -21,8 +21,10 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     });
 
     const setLanguage = (lang: Language) => {
+        console.log('🌐 Language changing from', language, 'to', lang);
         setLanguageState(lang);
         localStorage.setItem('farmiq_language', lang);
+        console.log('✅ Language changed and saved to localStorage:', lang);
     };
 
     const t = (key: keyof Translations): string => {
