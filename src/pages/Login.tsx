@@ -83,6 +83,12 @@ export default function Login() {
           title: t('loginSuccess'),
           description: t('welcomeBack'),
         });
+
+        // Reset language to English for dashboard
+        console.log('🔄 Resetting language to English for dashboard');
+        setLanguage('en');
+
+        // Navigate to dashboard
         navigate(response.redirectUrl);
       }
     } catch (error) {
@@ -157,8 +163,8 @@ export default function Login() {
               setLanguage('en');
             }}
             className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'en'
-                ? 'bg-green-500 text-white'
-                : 'bg-transparent text-gray-600 hover:bg-gray-100'
+              ? 'bg-green-500 text-white'
+              : 'bg-transparent text-gray-600 hover:bg-gray-100'
               }`}
           >
             EN
@@ -170,8 +176,8 @@ export default function Login() {
               setLanguage('hi');
             }}
             className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'hi'
-                ? 'bg-green-500 text-white'
-                : 'bg-transparent text-gray-600 hover:bg-gray-100'
+              ? 'bg-green-500 text-white'
+              : 'bg-transparent text-gray-600 hover:bg-gray-100'
               }`}
           >
             हिं
@@ -183,8 +189,8 @@ export default function Login() {
               setLanguage('pa');
             }}
             className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'pa'
-                ? 'bg-green-500 text-white'
-                : 'bg-transparent text-gray-600 hover:bg-gray-100'
+              ? 'bg-green-500 text-white'
+              : 'bg-transparent text-gray-600 hover:bg-gray-100'
               }`}
           >
             ਪੰ
