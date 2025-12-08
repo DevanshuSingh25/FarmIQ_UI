@@ -1,8 +1,5 @@
 // API functions for NGO schemes, soil labs, and crop history
-const API_BASE_URL = import.meta.env.VITE_API_URL ||
-    (import.meta.env.PROD
-        ? 'https://farm-backend-dqsw.onrender.com/api'
-        : 'http://localhost:3001/api');
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://farmiq-ui-backend.onrender.com/api';
 
 export interface NgoScheme {
     id: number;

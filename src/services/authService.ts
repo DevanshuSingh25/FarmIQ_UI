@@ -1,8 +1,5 @@
 // Authentication service for FarmIQ
-const API_BASE_URL = import.meta.env.VITE_API_URL ||
-  (import.meta.env.PROD
-    ? 'https://farm-backend-dqsw.onrender.com/api'
-    : 'http://localhost:3001/api');
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://farmiq-ui-backend.onrender.com/api';
 
 // Debug logging for production
 console.log('Environment:', import.meta.env.MODE);
@@ -100,8 +97,7 @@ class AuthService {
         if (error.message.includes('Failed to fetch') || error.message.includes('ERR_CONNECTION_REFUSED')) {
           throw new Error(
             `Cannot connect to backend server at ${API_BASE_URL}. ` +
-            `Please ensure the server is running on port 3001. ` +
-            `Run: cd server && node server.js`
+            `Please check your internet connection and ensure the backend is deployed and running.`
           );
         }
         throw error;

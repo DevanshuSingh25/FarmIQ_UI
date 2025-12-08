@@ -150,7 +150,7 @@ const CropDiseaseDetection = () => {
       if (errorMessage.includes("fetch") || errorMessage.includes("Failed to fetch") || errorMessage.includes("CORS")) {
         toast({
           title: "Connection Error",
-          description: "Cannot connect to prediction server. Please ensure the inference server is running on http://localhost:8000",
+          description: "Cannot connect to prediction server. Please ensure the ML inference server is running.",
           variant: "destructive"
         });
       } else {
