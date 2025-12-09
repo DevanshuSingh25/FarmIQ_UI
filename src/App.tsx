@@ -34,9 +34,12 @@ import GramPanchayatDashboard from "./pages/GramPanchayatDashboard";
 import NotFound from "./pages/NotFound";
 import { PremiumRoute } from "./components/PremiumRoute";
 import PremiumUpgrade from "./pages/farmer/PremiumUpgrade";
+import PremiumPayment from "./pages/farmer/PremiumPayment";
 import Analytics from "./pages/farmer/Analytics";
 import Automation from "./pages/farmer/Automation";
 import SoilLabs from "./pages/farmer/SoilLabs";
+import BlockchainQR from "./pages/farmer/BlockchainQR";
+import CropHistoryGraphs from "./pages/CropHistoryGraphs";
 
 const queryClient = new QueryClient();
 
@@ -220,6 +223,34 @@ const App = () => (
                     <ProtectedRoute requiredRole="farmer">
                       <PremiumRoute>
                         <SoilLabs />
+                      </PremiumRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/farmer/premium/payment"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumPayment />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/farmer/blockchain-qr"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumRoute>
+                        <BlockchainQR />
+                      </PremiumRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/crop-history"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumRoute>
+                        <CropHistoryGraphs />
                       </PremiumRoute>
                     </ProtectedRoute>
                   }
