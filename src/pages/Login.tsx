@@ -437,6 +437,20 @@ export default function Login() {
               {t('dontHaveAccount')} {t('register')}
             </Link>
           </div>
+
+          {/* Advertisement Button */}
+          <div className="text-center pt-4">
+            <Link
+              to="/advertisement/plans"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:scale-105"
+            >
+              <span className="text-2xl">📢</span>
+              <span>Advertise in Our App</span>
+            </Link>
+            <p className="text-sm text-muted-foreground mt-2">
+              Reach thousands of farmers
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

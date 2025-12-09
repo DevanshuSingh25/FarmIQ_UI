@@ -40,6 +40,8 @@ import Automation from "./pages/farmer/Automation";
 import SoilLabs from "./pages/farmer/SoilLabs";
 import BlockchainQR from "./pages/farmer/BlockchainQR";
 import CropHistoryGraphs from "./pages/CropHistoryGraphs";
+import AdvertisementPlans from "./pages/AdvertisementPlans";
+import AdvertisementPayment from "./pages/AdvertisementPayment";
 
 const queryClient = new QueryClient();
 
