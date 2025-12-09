@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 
 // Update CORS for production
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://farm-frontend-jb39.onrender.com', 'https://farm-frontend-jb39.onrender.com/']
+  ? ['https://farm-iq-phase-ui.vercel.app', 'https://farm-iq-phase-ui.vercel.app/']
   : ['http://localhost:8080', 'http://localhost:5173'];
 
 app.use(cors({
