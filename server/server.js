@@ -43,17 +43,24 @@ app.use(cors({
 
 // Middleware (CORS already configured above)
 
+// CRITICAL: Trust proxy for Render deployment (required for secure cookies)
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session configuration
+// CRITICAL: sameSite='none' and secure=true are REQUIRED for cross-site cookies
+// between Vercel (frontend) and Render (backend)
 app.use(session({
-  secret: 'farmiq-secret-key-change-in-production',
+  name: 'connect.sid',
+  secret: process.env.SESSION_SECRET || 'farmiq-secret-key-change-in-production',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to true in production with HTTPS
     httpOnly: true,
+    secure: true,          // REQUIRED for cross-site cookies (HTTPS only)
+    sameSite: 'none',      // REQUIRED for cross-site cookies
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));
@@ -153,6 +160,9 @@ app.post('/api/auth/login', async (req, res) => {
         break;
       case 'admin':
         redirectUrl = '/admin/dashboard';
+        break;
+      case 'GP':
+        redirectUrl = '/grampanchayat/dashboard';
         break;
       default:
         redirectUrl = '/login';
