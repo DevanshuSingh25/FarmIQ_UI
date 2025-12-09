@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2, Edit, Download, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getCrops, type CropHistory } from '@/services/api';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 interface MonthlyData {
     month: string;
@@ -185,6 +185,26 @@ export default function CropHistoryGraphs() {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* Bar Chart for Yield Comparison */}
+                <Card className="mb-8">
+                    <CardHeader>
+                        <CardTitle>Monthly Yield Comparison</CardTitle>
+                        <CardDescription>Bar chart showing crop yield by month (in tons)</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ResponsiveContainer width="100%" height={350}>
+                            <BarChart data={monthlyData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="month" />
+                                <YAxis />
+                                <Tooltip formatter={(value) => `${value} tons`} />
+                                <Legend />
+                                <Bar dataKey="yield_tons" fill="#22c55e" name="Yield (tons)" radius={[8, 8, 0, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </CardContent>
+                </Card>
 
                 {/* Recent Records Table */}
                 <Card>

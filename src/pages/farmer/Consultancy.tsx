@@ -45,7 +45,13 @@ const Consultancy = () => {
             if (searchTerm) params.append('q', searchTerm);
             if (specializationFilter && specializationFilter !== 'All') params.append('specialization', specializationFilter);
 
-            const res = await fetch(`/api/experts?${params.toString()}`);
+            const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://farmiq-ui-backend.onrender.com/api';
+            const res = await fetch(`${API_BASE_URL}/experts?${params.toString()}`, {
+                credentials: 'include', // Include cookies for session
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             if (!res.ok) throw new Error('Failed to load experts');
             const json = await res.json();
             setExperts(json.data);
