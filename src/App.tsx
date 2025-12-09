@@ -61,6 +61,8 @@ const App = () => (
                 {/* Authentication Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/advertisement/plans" element={<AdvertisementPlans />} />
+                <Route path="/advertisement/payment" element={<AdvertisementPayment />} />
 
                 {/* Protected Dashboard Routes */}
                 <Route
