@@ -29,7 +29,7 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-type UserRole = 'farmer' | 'vendor' | 'admin';
+type UserRole = 'farmer' | 'vendor' | 'admin' | 'GP';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -219,7 +219,7 @@ export default function Login() {
           {/* Role Selection - Huge Emoji Cards */}
           <div className="space-y-4">
             <Label className="text-lg font-semibold text-muted-foreground ml-1">Select Role / भूमिका चुनें</Label>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-4 gap-3">
               <button
                 type="button"
                 onClick={() => handleRoleChange('farmer')}
@@ -277,6 +277,26 @@ export default function Login() {
                 </span>
                 {selectedRole === 'admin' && (
                   <div className="absolute top-2 right-2 h-3 w-3 bg-gray-500 rounded-full animate-pulse" />
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleRoleChange('GP')}
+                className={`
+                  relative flex flex-col items-center justify-center p-3 rounded-2xl border-[3px] transition-all duration-200 gap-2
+                  ${selectedRole === 'GP'
+                    ? 'bg-purple-50 dark:bg-purple-900/20 border-purple-500 shadow-md scale-105 z-10'
+                    : 'bg-white dark:bg-gray-800 border-transparent hover:bg-gray-50 hover:border-gray-200'
+                  }
+                `}
+              >
+                <span className="text-3xl filter drop-shadow-sm">🏛️</span>
+                <span className={`font-bold text-sm ${selectedRole === 'GP' ? 'text-purple-700 dark:text-purple-400' : 'text-gray-600'}`}>
+                  GP
+                </span>
+                {selectedRole === 'GP' && (
+                  <div className="absolute top-2 right-2 h-3 w-3 bg-purple-500 rounded-full animate-pulse" />
                 )}
               </button>
             </div>

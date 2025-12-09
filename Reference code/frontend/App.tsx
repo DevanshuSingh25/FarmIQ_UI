@@ -28,9 +28,12 @@ import VendorQRScan from "./pages/vendor/qr-scan";
 import VendorFarmerSearch from "./pages/vendor/farmer-search";
 import VendorMarketPrices from "./pages/vendor/market-prices";
 import AdminDashboard from "./pages/AdminDashboard";
-import Consultancy from "./pages/farmer/Consultancy";
-import FarmerForum from "./pages/FarmerForum";
 import GramPanchayatDashboard from "./pages/GramPanchayatDashboard";
+import FarmerRegistration from "./pages/grampanchayat/FarmerRegistration";
+import Consultancy from "./pages/farmer/Consultancy";
+import VoiceCall from "./pages/farmer/VoiceCall";
+import STTTest from "./pages/STTTest";
+import FarmerForum from "./pages/FarmerForum";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -113,10 +116,7 @@ const App = () => (
                   path="/grampanchayat/create-farmer"
                   element={
                     <ProtectedRoute requiredRole="GP">
-                      <div className="container mx-auto p-6">
-                        <h1 className="text-3xl font-bold mb-4">Farmer Registration</h1>
-                        <p>Farmer registration form coming soon...</p>
-                      </div>
+                      <FarmerRegistration />
                     </ProtectedRoute>
                   }
                 />
@@ -124,10 +124,24 @@ const App = () => (
                   path="/grampanchayat/farmers"
                   element={
                     <ProtectedRoute requiredRole="GP">
-                      <div className="container mx-auto p-6">
-                        <h1 className="text-3xl font-bold mb-4">Manage Farmers</h1>
-                        <p>Farmer management page coming soon...</p>
-                      </div>
+                      <div className="container mx-auto p-6">Farmer Management Coming Soon</div>
+                    </ProtectedRoute>
+                  }
+                />
+                {/* GP-specific feature routes (same components as farmer) */}
+                <Route
+                  path="/grampanchayat/ngo-schemes"
+                  element={
+                    <ProtectedRoute requiredRole="GP">
+                      <NGOSchemes />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/grampanchayat/weather"
+                  element={
+                    <ProtectedRoute requiredRole="GP">
+                      <Weather />
                     </ProtectedRoute>
                   }
                 />
@@ -150,7 +164,7 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/weather"
+                  path="/farmer/weather"
                   element={
                     <ProtectedRoute requiredRole="farmer">
                       <Weather />
@@ -206,6 +220,14 @@ const App = () => (
                   }
                 />
                 <Route
+                  path="/farmer/voice-call"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <VoiceCall />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/profile"
                   element={
                     <ProtectedRoute>
@@ -220,6 +242,7 @@ const App = () => (
                 <Route path="/iot" element={<div className="container mx-auto p-6">IoT page coming soon</div>} />
                 <Route path="/market-prices" element={<MarketPrices />} />
                 <Route path="/yield-prediction" element={<YieldPrediction />} />
+                <Route path="/stt-test" element={<STTTest />} />
 
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />

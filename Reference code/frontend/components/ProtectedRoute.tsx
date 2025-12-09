@@ -2,9 +2,11 @@ import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
+type UserRole = 'farmer' | 'vendor' | 'admin' | 'GP';
+
 interface ProtectedRouteProps {
   children: ReactNode;
-  requiredRole?: 'farmer' | 'vendor' | 'admin' | 'GP';
+  requiredRole?: UserRole | UserRole[]; // Accept single role or array of roles
 }
 
 export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
@@ -29,13 +31,17 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
   }
 
   // Check role-based access if required
-  if (requiredRole && user?.role !== requiredRole) {
-    // Redirect to appropriate dashboard based on user's actual role
-    const redirectPath = user?.role === 'farmer' ? '/farmer/dashboard' :
-      user?.role === 'vendor' ? '/vendor/dashboard' :
-        user?.role === 'admin' ? '/admin/dashboard' :
-          user?.role === 'GP' ? '/grampanchayat/dashboard' : '/login';
-    return <Navigate to={redirectPath} replace />;
+  if (requiredRole) {
+    const allowedRoles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
+
+    if (!user?.role || !allowedRoles.includes(user.role)) {
+      // Redirect to appropriate dashboard based on user's actual role
+      const redirectPath = user?.role === 'farmer' ? '/farmer/dashboard' :
+        user?.role === 'vendor' ? '/vendor/dashboard' :
+          user?.role === 'admin' ? '/admin/dashboard' :
+            user?.role === 'GP' ? '/grampanchayat/dashboard' : '/login';
+      return <Navigate to={redirectPath} replace />;
+    }
   }
 
   return <>{children}</>;
