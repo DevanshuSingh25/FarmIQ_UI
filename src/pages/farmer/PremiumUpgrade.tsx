@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { premiumService } from '@/services/premiumService';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Crown, Check, TrendingUp, Zap, Activity, FlaskConical, QrCode, Lock, Loader2 } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { Crown, Check, TrendingUp, Zap, Activity, FlaskConical, QrCode, Lock } from 'lucide-react';
 import { FarmIQNavbar } from '@/components/farmiq/FarmIQNavbar';
 
 export default function PremiumUpgrade() {
     const navigate = useNavigate();
-    const { toast } = useToast();
-    const [loading, setLoading] = useState(false);
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const [language, setLanguage] = useState<'English' | 'Hindi' | 'Punjabi'>('English');
 
@@ -19,30 +15,9 @@ export default function PremiumUpgrade() {
         document.documentElement.classList.toggle('dark');
     };
 
-    const handleActivatePremium = async () => {
-        try {
-            setLoading(true);
-            const result = await premiumService.activate();
-
-            toast({
-                title: 'Premium Activated! 🎉',
-                description: result.message,
-            });
-
-            // Redirect to dashboard after short delay
-            setTimeout(() => {
-                navigate('/farmer/dashboard');
-            }, 1500);
-        } catch (error) {
-            console.error('Premium activation failed:', error);
-            toast({
-                title: 'Activation Failed',
-                description: 'Could not activate premium. Please try again.',
-                variant: 'destructive',
-            });
-        } finally {
-            setLoading(false);
-        }
+    const handleActivatePremium = () => {
+        // Redirect to payment page instead of direct activation
+        navigate('/farmer/premium/payment');
     };
 
     const premiumFeatures = [
@@ -124,20 +99,10 @@ export default function PremiumUpgrade() {
                                 <p className="text-lg text-muted-foreground mb-6">One-time payment</p>
                                 <Button
                                     onClick={handleActivatePremium}
-                                    disabled={loading}
                                     className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold text-lg px-8 py-6 rounded-full shadow-lg transition-transform hover:scale-105"
                                 >
-                                    {loading ? (
-                                        <>
-                                            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                                            Activating...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Crown className="h-5 w-5 mr-2" fill="currentColor" />
-                                            Activate Premium Now
-                                        </>
-                                    )}
+                                    <Crown className="h-5 w-5 mr-2" fill="currentColor" />
+                                    Buy Premium Now
                                 </Button>
                             </CardContent>
                         </Card>
@@ -217,21 +182,11 @@ export default function PremiumUpgrade() {
                                 </p>
                                 <Button
                                     onClick={handleActivatePremium}
-                                    disabled={loading}
                                     size="lg"
                                     className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold px-8 py-6 rounded-full shadow-lg"
                                 >
-                                    {loading ? (
-                                        <>
-                                            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                                            Activating...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Crown className="h-5 w-5 mr-2" fill="currentColor" />
-                                            Get Premium for ₹500
-                                        </>
-                                    )}
+                                    <Crown className="h-5 w-5 mr-2" fill="currentColor" />
+                                    Get Premium for ₹500
                                 </Button>
                             </CardContent>
                         </Card>

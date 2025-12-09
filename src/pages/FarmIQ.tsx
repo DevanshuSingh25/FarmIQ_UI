@@ -57,7 +57,7 @@ export default function FarmIQ() {
 
             {!premiumStatus?.is_premium && (
               <Button
-                onClick={() => navigate('/farmer/premium/payment')}
+                onClick={() => navigate('/farmer/premium/upgrade')}
                 className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold shadow-lg"
                 size="lg"
               >
