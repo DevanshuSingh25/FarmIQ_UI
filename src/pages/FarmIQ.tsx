@@ -1,13 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FarmIQNavbar } from "@/components/farmiq/FarmIQNavbar";
 import { WeatherCard } from "@/components/farmiq/WeatherCard";
 import { ActionButtons } from "@/components/farmiq/ActionButtons";
 import { SectionSpeaker } from "@/components/ui/section-speaker";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { PremiumBadge } from "@/components/ui/premium-badge";
+import { premiumService, PremiumStatus } from "@/services/premiumService";
+import { Crown } from "lucide-react";
 
 export default function FarmIQ() {
+  const navigate = useNavigate();
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [language, setLanguage] = useState<'English' | 'Hindi' | 'Punjabi'>('English');
+  const [premiumStatus, setPremiumStatus] = useState<PremiumStatus | null>(null);
+
+  useEffect(() => {
+    loadPremiumStatus();
+  }, []);
+
+  const loadPremiumStatus = async () => {
+    try {
+      const status = await premiumService.getStatus();
+      setPremiumStatus(status);
+    } catch (error) {
+      console.error('Failed to load premium status:', error);
+    }
+  };
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
@@ -25,10 +45,26 @@ export default function FarmIQ() {
 
       <main className="pt-20 pb-4 px-4">
         <div className="container mx-auto max-w-7xl">
-          {/* Header with Welcome */}
-          <div className="mb-8">
-            <h1 className="text-5xl font-bold mb-2">🏡 My Farm</h1>
-            <p className="text-2xl text-muted-foreground">Welcome back, Farmer!</p>
+          {/* Header with Welcome and Premium */}
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-5xl font-bold mb-2 flex items-center gap-3">
+                🏡 My Farm
+                {premiumStatus?.is_premium && <PremiumBadge />}
+              </h1>
+              <p className="text-2xl text-muted-foreground">Welcome back, Farmer!</p>
+            </div>
+
+            {!premiumStatus?.is_premium && (
+              <Button
+                onClick={() => navigate('/farmer/premium/upgrade')}
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold shadow-lg"
+                size="lg"
+              >
+                <Crown className="h-4 w-4 mr-2" fill="currentColor" />
+                Upgrade to Premium
+              </Button>
+            )}
           </div>
 
           {/* Action Buttons - Already transformed */}

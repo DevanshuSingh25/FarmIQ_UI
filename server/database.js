@@ -667,6 +667,26 @@ const dbHelpers = {
     } catch (error) {
       throw error;
     }
+  },
+
+  // ==== PREMIUM HELPERS ====
+  updatePremiumStatus: async (userId, premiumData) => {
+    try {
+      const { is_premium, premium_activated_at, premium_expires_at } = premiumData;
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          is_premium,
+          premium_activated_at,
+          premium_expires_at,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+      if (error) throw error;
+      return { changes: 1 };
+    } catch (error) {
+      throw error;
+    }
   }
 };
 

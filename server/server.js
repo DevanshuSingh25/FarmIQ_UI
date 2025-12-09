@@ -917,6 +917,67 @@ app.get('/api/experts', requireAuth, async (req, res) => {
   }
 });
 
+// ========== PREMIUM ROUTES ==========
+
+// Get premium status for current user
+app.get('/api/premium/status', requireAuth, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const profile = await dbHelpers.findProfileByUserId(userId);
+
+    res.json({
+      is_premium: profile?.is_premium || false,
+      activated_at: profile?.premium_activated_at || null,
+      expires_at: profile?.premium_expires_at || null
+    });
+  } catch (error) {
+    console.error('Get premium status error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Activate premium (simplified - manual activation for now)
+app.post('/api/premium/activate', requireAuth, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+
+    await dbHelpers.updatePremiumStatus(userId, {
+      is_premium: true,
+      premium_activated_at: new Date().toISOString(),
+      premium_expires_at: null // No expiration for now
+    });
+
+    res.json({
+      success: true,
+      message: 'Premium activated successfully! You now have access to Analytics, Automation, Sensor Dashboard, Soil Labs, and Blockchain QR.'
+    });
+  } catch (error) {
+    console.error('Activate premium error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Deactivate premium (admin/testing purposes)
+app.post('/api/premium/deactivate', requireAuth, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+
+    await dbHelpers.updatePremiumStatus(userId, {
+      is_premium: false,
+      premium_activated_at: null,
+      premium_expires_at: null
+    });
+
+    res.json({
+      success: true,
+      message: 'Premium deactivated'
+    });
+  } catch (error) {
+    console.error('Deactivate premium error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // ========== QR CODE ROUTES ==========
 
 // Parse QR code text

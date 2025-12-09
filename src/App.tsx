@@ -32,6 +32,11 @@ import Consultancy from "./pages/farmer/Consultancy";
 import FarmerForum from "./pages/FarmerForum";
 import GramPanchayatDashboard from "./pages/GramPanchayatDashboard";
 import NotFound from "./pages/NotFound";
+import { PremiumRoute } from "./components/PremiumRoute";
+import PremiumUpgrade from "./pages/farmer/PremiumUpgrade";
+import Analytics from "./pages/farmer/Analytics";
+import Automation from "./pages/farmer/Automation";
+import SoilLabs from "./pages/farmer/SoilLabs";
 
 const queryClient = new QueryClient();
 
@@ -182,10 +187,50 @@ const App = () => (
                   }
                 />
                 <Route
+                  path="/farmer/premium/upgrade"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumUpgrade />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/farmer/analytics"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumRoute>
+                        <Analytics />
+                      </PremiumRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/farmer/automation"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumRoute>
+                        <Automation />
+                      </PremiumRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/farmer/soil-labs"
+                  element={
+                    <ProtectedRoute requiredRole="farmer">
+                      <PremiumRoute>
+                        <SoilLabs />
+                      </PremiumRoute>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/farmer/iot"
                   element={
                     <ProtectedRoute requiredRole="farmer">
-                      <IoTSensor />
+                      <PremiumRoute>
+                        <IoTSensor />
+                      </PremiumRoute>
                     </ProtectedRoute>
                   }
                 />
