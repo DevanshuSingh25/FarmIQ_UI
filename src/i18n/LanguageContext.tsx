@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useMemo, ReactNode } from 'react';
 import { Language, translations, Translations } from './translations';
 
 interface LanguageContextType {
@@ -13,30 +13,52 @@ interface LanguageProviderProps {
     children: ReactNode;
 }
 
-export function LanguageProvider({ children }: LanguageProviderProps) {
+export const LanguageProvider = React.memo(function LanguageProvider({ children }: LanguageProviderProps) {
     const [language, setLanguageState] = useState<Language>(() => {
-        // Try to get language from localStorage
-        const saved = localStorage.getItem('farmiq_language');
-        return (saved as Language) || 'en';
+        // Try to get language from localStorage with defensive error handling
+        try {
+            const saved = localStorage.getItem('farmiq_language');
+            return (saved as Language) || 'en';
+        } catch (error) {
+            console.error('Failed to load language preference:', error);
+            return 'en'; // Fallback to English on error
+        }
     });
 
     const setLanguage = (lang: Language) => {
-        console.log('🌐 Language changing from', language, 'to', lang);
+        /*
+         * ## Phase 2: Language Context Enhancement
+         * - [x] Update `src/i18n/LanguageContext.tsx` with localStorage persistence
+         * - [x] Add error handling for localStorage access
+         * - [x] Implement memoization for performance
+         * - [x] Verify `src/i18n/translations.ts` exist
+         */
         setLanguageState(lang);
-        localStorage.setItem('farmiq_language', lang);
-        console.log('✅ Language changed and saved to localStorage:', lang);
+        // Persist language selection to localStorage with error handling
+        try {
+            localStorage.setItem('farmiq_language', lang);
+        } catch (error) {
+            console.error('Failed to save language preference:', error);
+        }
     };
 
     const t = (key: keyof Translations): string => {
         return translations[language][key];
     };
 
+    // Memoize context value to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
+        language,
+        setLanguage,
+        t
+    }), [language]);
+
     return (
-        <LanguageContext.Provider value={{ language, setLanguage, t }}>
+        <LanguageContext.Provider value={contextValue}>
             {children}
         </LanguageContext.Provider>
     );
-}
+});
 
 export function useTranslation() {
     const context = useContext(LanguageContext);

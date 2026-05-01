@@ -62,11 +62,7 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  // Force login page to always start in English
-  useEffect(() => {
-    console.log('🌐 Login page loaded - forcing English language');
-    setLanguage('en');
-  }, []); // Run only once on mount
+
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
@@ -90,11 +86,7 @@ export default function Login() {
           description: t('welcomeBack'),
         });
 
-        // Reset language to English for dashboard
-        console.log('🔄 Resetting language to English for dashboard');
-        setLanguage('en');
-
-        // Navigate to dashboard
+        // Navigate to dashboard (language persists from LanguageContext)
         navigate(response.redirectUrl);
       }
     } catch (error) {
@@ -142,10 +134,7 @@ export default function Login() {
               {(Object.keys(languageLabels) as Language[]).map((lang) => (
                 <DropdownMenuItem
                   key={lang}
-                  onClick={() => {
-                    console.log('Changing language to:', lang);
-                    setLanguage(lang);
-                  }}
+                  onClick={() => setLanguage(lang)}
                   className="cursor-pointer text-lg py-3"
                 >
                   {languageLabels[lang]}
@@ -164,10 +153,7 @@ export default function Login() {
         <div className="flex gap-1 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md border border-gray-200 dark:border-gray-700">
           <button
             type="button"
-            onClick={() => {
-              console.log('Switching to English');
-              setLanguage('en');
-            }}
+            onClick={() => setLanguage('en')}
             className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'en'
               ? 'bg-green-500 text-white'
               : 'bg-transparent text-gray-600 hover:bg-gray-100'
@@ -177,10 +163,7 @@ export default function Login() {
           </button>
           <button
             type="button"
-            onClick={() => {
-              console.log('Switching to Hindi');
-              setLanguage('hi');
-            }}
+            onClick={() => setLanguage('hi')}
             className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'hi'
               ? 'bg-green-500 text-white'
               : 'bg-transparent text-gray-600 hover:bg-gray-100'
@@ -190,10 +173,7 @@ export default function Login() {
           </button>
           <button
             type="button"
-            onClick={() => {
-              console.log('Switching to Punjabi');
-              setLanguage('pa');
-            }}
+            onClick={() => setLanguage('pa')}
             className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${language === 'pa'
               ? 'bg-green-500 text-white'
               : 'bg-transparent text-gray-600 hover:bg-gray-100'
