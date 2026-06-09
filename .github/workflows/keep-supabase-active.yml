@@ -1,26 +1,17 @@
-name: Keep Supabase Active
+name: Keep Supabase Alive
 
 on:
   schedule:
-    - cron: '0 12 */3 * *'
+    # Run every day at 12:00 PM UTC
+    - cron: '0 12 * * *'
   workflow_dispatch:
 
 jobs:
   ping:
-    name: Ping Supabase Project
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send keep-alive request
+      - name: Ping Supabase Database
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            https://rzrawloihpdozkvumpye.supabase.co/health)
-
-          echo "Response status: $STATUS"
-
-          if [ "$STATUS" -eq 200 ] || [ "$STATUS" -eq 401 ]; then
-            echo "✅ Supabase is alive and responding!"
-          else
-            echo "❌ Project may be down or paused. Status: $STATUS"
-            exit 1
-          fi
+          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/your_table_name?select=id&limit=1" \
+          -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}"
